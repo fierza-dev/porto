@@ -6,6 +6,7 @@
     "@floating-ui/dom": "^1.7.2",
     "@preline/collapse": "^3.1.0",
     "@preline/dropdown": "^3.1.0",
+    "canvas-confetti": "^1.9.3",
     "preline": "^3.1.0"
   },
   "devDependencies": {
