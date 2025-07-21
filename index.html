@@ -1,66 +1,88 @@
-<!doctype html>
-<html class="scroll-smooth">
-
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hola, I'am Fierza</title>
     <link rel="stylesheet" href="src/css/output.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    AOS.init();
-</script>
 </head>
 
 <body>
+    <!-- Content containers -->
+    <div id="header"></div>
+    <div id="navbar"></div>
 
-<div id="header"></div>
-<div id="navbar"></div>
+    <main class="container px-3 mx-auto w-full">
+        <div id="hero"></div>
+        <div id="about"></div>
+        <div id="service"></div>
+        <div id="project"></div>
+        <div id="contact"></div>
+    </main>
 
-<main class="container px-3 mx-auto w-full">
-    <div id="hero"></div>
-    <div id="about"></div>
-    <br>
-    <div id="service"></div>
-    <br>
-    <div id="project"></div>
-    <br>
-    <div id="contact"></div>
-</main>
+    <div id="footer"></div>
+    <div id="script"></div>
 
-<div id="footer"></div>
-<div id="script"></div>
-
-<script>
-// Fungsi untuk memuat komponen
-async function loadComponent(id, path) {
-    try {
-        const response = await fetch(path);
-        if (!response.ok) throw new Error(`Failed to load ${path}`);
-        const html = await response.text();
-        document.getElementById(id).innerHTML = html;
+    <!-- Improved JavaScript -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+    // Initialize AOS after DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        AOS.init();
         
-        // Jika memuat file script, kita perlu mengeksekusi kode JS
-        if (path.includes('script.html')) {
-            const scripts = document.getElementById(id).getElementsByTagName('script');
-            for (let script of scripts) {
-                eval(script.innerHTML);
-            }
-        }
-    } catch (error) {
-        console.error(error);
-    }
-}
+        // Improved component loader
+        const loadComponent = async (id, path) => {
+            try {
+                const element = document.getElementById(id);
+                if (!element) {
+                    console.warn(`Element with ID ${id} not found`);
+                    return;
+                }
 
-// Memuat semua komponen
-document.addEventListener('DOMContentLoaded', () => {
-    loadComponent('navbar', 'component/navbar.html');
-    loadComponent('hero', 'includes/hero.html');
-    loadComponent('about', 'includes/about.html');
-    loadComponent('service', 'includes/service.html');
-    loadComponent('project', 'includes/project.html');
-    loadComponent('contact', 'includes/contact.html');
-    loadComponent('footer', 'component/footer.html');
-    loadComponent('script', 'component/script.html');
-});
-</script>
+                const response = await fetch(path);
+                if (!response.ok) throw new Error(`Failed to load ${path} (${response.status})`);
+                
+                const html = await response.text();
+                element.innerHTML = html;
+
+                // Handle scripts safely
+                if (path.includes('script.html')) {
+                    const scripts = element.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.textContent = script.textContent;
+                        }
+                        document.body.appendChild(newScript);
+                    });
+                }
+            } catch (error) {
+                console.error(`Error loading ${path}:`, error);
+            }
+        };
+
+        // Load components in sequence
+        const loadComponents = async () => {
+            try {
+                await loadComponent('header', 'component/header.html');
+                await loadComponent('navbar', 'component/navbar.html');
+                await loadComponent('hero', 'includes/hero.html');
+                await loadComponent('about', 'includes/about.html');
+                await loadComponent('service', 'includes/service.html');
+                await loadComponent('project', 'includes/project.html');
+                await loadComponent('contact', 'includes/contact.html');
+                await loadComponent('footer', 'component/footer.html');
+                await loadComponent('script', 'component/script.html');
+            } catch (error) {
+                console.error('Component loading error:', error);
+            }
+        };
+
+        loadComponents();
+    });
+    </script>
+</body>
+</html>
