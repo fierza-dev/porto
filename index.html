@@ -1,0 +1,51 @@
+<div id="header"></div>
+<div id="navbar"></div>
+
+<main class="container px-3 mx-auto w-full">
+    <div id="hero"></div>
+    <div id="about"></div>
+    <br>
+    <div id="service"></div>
+    <br>
+    <div id="project"></div>
+    <br>
+    <div id="contact"></div>
+</main>
+
+<div id="footer"></div>
+<div id="script"></div>
+
+<script>
+// Fungsi untuk memuat komponen
+async function loadComponent(id, path) {
+    try {
+        const response = await fetch(path);
+        if (!response.ok) throw new Error(`Failed to load ${path}`);
+        const html = await response.text();
+        document.getElementById(id).innerHTML = html;
+        
+        // Jika memuat file script, kita perlu mengeksekusi kode JS
+        if (path.includes('script.html')) {
+            const scripts = document.getElementById(id).getElementsByTagName('script');
+            for (let script of scripts) {
+                eval(script.innerHTML);
+            }
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// Memuat semua komponen
+document.addEventListener('DOMContentLoaded', () => {
+    loadComponent('header', 'component/header.html');
+    loadComponent('navbar', 'component/navbar.html');
+    loadComponent('hero', 'includes/hero.html');
+    loadComponent('about', 'includes/about.html');
+    loadComponent('service', 'includes/service.html');
+    loadComponent('project', 'includes/project.html');
+    loadComponent('contact', 'includes/contact.html');
+    loadComponent('footer', 'component/footer.html');
+    loadComponent('script', 'component/script.html');
+});
+</script>
