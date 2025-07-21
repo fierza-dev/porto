@@ -1,0 +1,16 @@
+<!--#include virtual="component/header.html" -->
+<!--#include virtual="component/navbar.html" -->
+
+<main class="container px-3 mx-auto w-full">
+    <!--#include virtual="includes/hero.html" -->
+    <!--#include virtual="includes/about.html" -->
+    <br>
+    <!--#include virtual="includes/service.html" -->
+    <br>
+    <!--#include virtual="includes/project.html" -->
+    <br>
+    <!--#include virtual="includes/contact.html" -->
+</main>
+
+<!--#include virtual="component/footer.html" -->
+<!--#include virtual="component/script.html" -->
