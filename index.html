@@ -3,12 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hola, I'am Fierza</title>
-    <link rel="stylesheet" href="src/css/output.css">
+    <meta name="description" content="Your website description">
+    <title>Your Website Title</title>
+    
+    <!-- Preconnect to CDNs -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://unpkg.com">
+    
+    <!-- CSS Resources -->
+    <link rel="stylesheet" href="dist/css/styles.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-white text-gray-800">
+    <!-- Loading placeholder -->
+    <div id="app-loading" class="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div class="animate-pulse flex flex-col items-center">
+            <div class="h-12 w-12 bg-blue-500 rounded-full mb-4"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
     <!-- Content containers -->
     <div id="header"></div>
     <div id="navbar"></div>
@@ -22,67 +37,10 @@
     </main>
 
     <div id="footer"></div>
-    <div id="script"></div>
 
-    <!-- Improved JavaScript -->
+    <!-- JavaScript at the bottom -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-    // Initialize AOS after DOM is loaded
-    document.addEventListener('DOMContentLoaded', () => {
-        AOS.init();
-        
-        // Improved component loader
-        const loadComponent = async (id, path) => {
-            try {
-                const element = document.getElementById(id);
-                if (!element) {
-                    console.warn(`Element with ID ${id} not found`);
-                    return;
-                }
-
-                const response = await fetch(path);
-                if (!response.ok) throw new Error(`Failed to load ${path} (${response.status})`);
-                
-                const html = await response.text();
-                element.innerHTML = html;
-
-                // Handle scripts safely
-                if (path.includes('script.html')) {
-                    const scripts = element.querySelectorAll('script');
-                    scripts.forEach(script => {
-                        const newScript = document.createElement('script');
-                        if (script.src) {
-                            newScript.src = script.src;
-                        } else {
-                            newScript.textContent = script.textContent;
-                        }
-                        document.body.appendChild(newScript);
-                    });
-                }
-            } catch (error) {
-                console.error(`Error loading ${path}:`, error);
-            }
-        };
-
-        // Load components in sequence
-        const loadComponents = async () => {
-            try {
-                await loadComponent('header', 'component/header.html');
-                await loadComponent('navbar', 'component/navbar.html');
-                await loadComponent('hero', 'includes/hero.html');
-                await loadComponent('about', 'includes/about.html');
-                await loadComponent('service', 'includes/service.html');
-                await loadComponent('project', 'includes/project.html');
-                await loadComponent('contact', 'includes/contact.html');
-                await loadComponent('footer', 'component/footer.html');
-                await loadComponent('script', 'component/script.html');
-            } catch (error) {
-                console.error('Component loading error:', error);
-            }
-        };
-
-        loadComponents();
-    });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/preline@3.1/dist/preline.min.js" defer></script>
+    <script src="dist/js/main.min.js" type="module" defer></script>
 </body>
 </html>
